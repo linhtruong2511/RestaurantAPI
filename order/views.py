@@ -26,7 +26,8 @@ class SubmitOrder(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        #comment test
+        #comment test 2
+        #test
         customer = Customer.objects.get(pk=request.user.id)
         take_away = request.data.get('take_away', False)
         items = request.data.get('items')

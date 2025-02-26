@@ -1,18 +1,13 @@
-from Tools.scripts.pathfix import keep_flags
-from django.http import Http404
-from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status, viewsets
 
-from permission.IsOwnerUser import IsOwnerUserID
+from app.permission import IsOwnerUserID
 from users.models import Customer, User
 from users.serializer import CustomerSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.hashers import make_password
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics
-import logging
 
 
 # Create your views here.

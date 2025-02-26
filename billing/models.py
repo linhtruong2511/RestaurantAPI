@@ -1,5 +1,9 @@
 from django.db import models
 
+from app.exception import AppException
+from order.models import Order
+
+
 # Create your models here.
 class Payment(models.Model):
     CARD = 'card'
@@ -15,3 +19,6 @@ class Payment(models.Model):
     total_amount = models.DecimalField(decimal_places=2, max_digits=10)
     method = models.CharField(choices=METHOD_STATUS, default='cash')
     paid = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-date', '-id']

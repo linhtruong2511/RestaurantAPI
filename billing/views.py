@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
+from app.exception import AppException
 from order.models import Order
 from .serializer import PaymentSerializer
 from .models import Payment
@@ -8,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 class BillingViewSet(viewsets.ModelViewSet):
@@ -16,31 +18,15 @@ class BillingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
     def create(self, request, *args, **kwargs):
-        order = Order.objects.get(pk=request.data.get('order_id'))
-        order.status = Order.IN_PROGRESS
-        if not order:
-            return Response({
-                "error" : 'order is not exist'
-            }, 400)
-
-        total_amount = 0
-        try:
-            order_items = order.order_items.all()
-            for item in order_items:
-                total_amount += item.quantity * item.menu_item.price
-        except Exception as e:
-            return Response(str(e), 400)
-
+        print(kwargs)
+        order_id = request.data.get('order_id')
+        order = get_object_or_404(Order, pk=order_id)
         payment = Payment(
-            total_amount=total_amount,
+            total_amount= self.get_total_amount(order),
             order=order
         )
-        try:
-            order.save()
-            payment.save()
-            return Response(PaymentSerializer(payment).data, 201)
-        except Exception as e:
-            return Response({'error' : str(e)}, 400)
+        self.create_bill(payment)
+        return Response(PaymentSerializer(payment).data)
 
     @action(methods=['put'], detail=True)
     def pay(self, request, pk = None):
@@ -50,23 +36,35 @@ class BillingViewSet(viewsets.ModelViewSet):
 
         #kiểm tra nếu hóa đơn đó đã được thanh toán rôi thì không thanh toán lại nữa
         if payment.paid:
-            return Response({
-                'message' : 'payment is paid'
-            }, 400)
+            raise AppException(*AppException.PAYMENT_IS_PAID)
 
         #update
-        payment.paid = True
-        order.tables.clear()
-        order.status = Order.COMPLETED
-        print("method is : " + str(method))
-        if method:
-            payment.method = method
+        self.handle_pay(payment, method)
 
-        try:
-            order.save()
-            payment.save()
-            return Response(PaymentSerializer(payment).data)
-        except Exception as e:
-            return Response({
-                'error': str(e)
-            }, 400)
+        return Response(PaymentSerializer(payment).data)
+
+    def get_total_amount(self, order):
+        total_amount = 0
+        order_items = order.order_items.all()
+        for item in order_items:
+            total_amount += item.quantity * item.menu_item.price
+        return total_amount
+    def create_bill(self, payment):
+        if payment.order.status == Order.IN_PROGRESS:
+            raise AppException(*AppException.ORDER_BILL_EXISTED)
+        payment.order.status = Order.IN_PROGRESS
+        payment.order.save()
+        payment.save()
+    def handle_pay(self, payment, method):
+        payment.paid = True
+        payment.order.status = Order.COMPLETED
+        payment.method = method or payment.method
+
+        # Update tình trạng bàn là không bận và xóa order khỏi bàn đó
+        for table in payment.order.tables.all():
+            table.is_busy = False
+            table.order.remove(payment.order)
+            table.save()
+
+        payment.order.save()
+        payment.save()

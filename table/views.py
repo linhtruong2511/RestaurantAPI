@@ -2,17 +2,9 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
+from app.exception import AppException
 from table.models import Table
 from table.serializer import TableSerializer
-
-
-class TableException(Exception):
-    def __init__(self, message, code):
-        super().__init__(message)
-        self.error_code = code
-
-    def __str__(self):
-        return super().__str__()
 
 
 # Create your views here.
@@ -30,13 +22,13 @@ class TableViewSet(viewsets.ModelViewSet):
     @staticmethod
     def set_table(order, tables):
         if not isinstance(tables, list):
-            raise TableException("Invalid table list", 400)
+            raise AppException(*AppException.TYPE_ERROR)
 
         for id in tables:
             table = Table.objects.get(pk=id)
-            # print("table busy : " + str(table.is_busy))
             if table.is_busy:
-                raise TableException('table is busy', 400)
+                order.delete()
+                raise AppException(*AppException.TABLE_BUSY)
             table.order.add(order)
             table.is_busy = True
             table.save()

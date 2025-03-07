@@ -24,6 +24,7 @@ class AppException(Exception):
     TABLE_BUSY = ['table is busy',]
     TYPE_ERROR = ['has field type invalid',]
     MENU_ITEM_OUT_OF_STOCK = ['menu item is out of stock']
+    CATEGORY_NOT_EXIST = ['category is not exist']
 
     def __init__(self, message, status_code = 400):
         super().__init__(message)

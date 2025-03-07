@@ -1,14 +1,19 @@
+from django.core.serializers import serialize
 from rest_framework.response import Response
 from rest_framework import status, viewsets
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from app.permission import IsOwnerUserID
 from users.models import Customer, User
 from users.serializer import CustomerSerializer, UserSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.contrib.auth.hashers import make_password
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics
+import logging
 
+logger = logging.getLogger('login')
 
 # Create your views here.
 class RegisterUser(generics.CreateAPIView):
@@ -43,11 +48,22 @@ class MyAccount(generics.RetrieveAPIView,
             request.data['password'] = make_password(password)
         return self.partial_update(request, args, kwargs)
 
+class Info(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    serializer_class = UserSerializer
+    def retrieve(self, request, *args, **kwargs):
+        user = request.user
+        logger.info('get user infor: ' + user.username)
+        serializer = self.get_serializer(user)
+        if user:
+            return Response(serializer.data)
+        return Response('login fail', 400)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-
     def get_permissions(self):
         if self.action == 'retrieve':
             self.permission_classes = [IsAuthenticated]

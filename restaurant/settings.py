@@ -147,7 +147,7 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER': 'app.exception.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 10
 }
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
@@ -196,16 +196,21 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     "formatters": {
-        "simple": {
+        "file": {
             "format": "{levelname} {asctime} in [{name}]: {message}",
             "style": "{",
         },
+        'simple': {
+            'format' : '{levelname} {asctime} {message}',
+            'style' : '{'
+        }
     },
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
             'filename': 'general.log',
-            'formatter': 'simple'
+            'formatter': 'file',
+            'level' : 'INFO'
         },
         'console': {
             'class': 'logging.StreamHandler',

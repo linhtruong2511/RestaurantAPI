@@ -12,7 +12,6 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics
 import logging
-
 logger = logging.getLogger('login')
 
 # Create your views here.
@@ -31,8 +30,14 @@ class RegisterUser(generics.CreateAPIView):
                 phone=request.data.get('phone'),
             )
             serializer = UserSerializer(user)
+            logger.info(f'user [{user.username}] successfully registered an account')
+            Customer.objects.create(
+                user = user
+            )
+            logger.info(f'upgrade users [{user.username}] to customer')
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
+            logger.error(f'error creating account: {str(e)} ')
             return Response({'error': str(e)}, status=400)
 
 
@@ -86,14 +91,3 @@ class UploadAvatar(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-    # def patch(self, request, pk):
-    #     try:
-    #         user = User.objects.get(pk=pk)
-    #         serializer = UserSerializer(user, request.data, partial=True)
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data, 200)
-    #         else:
-    #             return Response(serializer.errors, 400)
-    #     except User.DoesNotExist:
-    #         raise Http404

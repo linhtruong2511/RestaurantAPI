@@ -9,7 +9,7 @@ def custom_exception_handler(exc, context):
         return Response({
             "detail": str(exc),
             "status_code" : exc.status_code
-        })
+        }, 400)
 
     if response is not None:
         response.data['status_code'] = response.status_code
@@ -25,7 +25,9 @@ class AppException(Exception):
     TYPE_ERROR = ['has field type invalid',]
     MENU_ITEM_OUT_OF_STOCK = ['menu item is out of stock']
     CATEGORY_NOT_EXIST = ['category is not exist']
-
+    ORDER_TIME_ERROR = ['order time is not invalid']
+    ERROR_TIME_FORMAT = ['time format invalid']
+    ORDER_FULL = ['order is full']
     def __init__(self, message, status_code = 400):
         super().__init__(message)
         self.status_code = status_code

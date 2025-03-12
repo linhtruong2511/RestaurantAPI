@@ -1,5 +1,8 @@
-from django.db import models
+from datetime import datetime, timezone
 
+from django.db import models
+from django.template.defaultfilters import default
+from django.utils import timezone
 from menu.models import MenuItem
 from users.models import Customer
 
@@ -16,7 +19,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     PENDING = "Pending"
-    IN_PROGRESS = "In progress"
+    IN_PROGRESS = "Progressing"
     COMPLETED = "Complete"
     CANCELLED = "Cancelled"
     STATUS_CHOICE = {
@@ -26,7 +29,8 @@ class Order(models.Model):
         CANCELLED: "cancelled"
     }
 
-    order_date = models.DateField(auto_now_add=True)
+    order_date = models.DateTimeField(default= timezone.now)
+    create_date = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(
         choices=STATUS_CHOICE,
         default=PENDING
@@ -34,6 +38,6 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     take_away = models.BooleanField(default=False)
     menu_item = models.ManyToManyField(to='menu.MenuItem', related_name='orders', through=OrderItem)
-
+    number_of_guests = models.IntegerField(default=1)
     class Meta:
         ordering = ['-order_date', '-id']

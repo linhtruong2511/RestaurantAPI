@@ -26,6 +26,8 @@ class AppException(Exception):
     MENU_ITEM_OUT_OF_STOCK = ['menu item is out of stock']
     CATEGORY_NOT_EXIST = ['category is not exist']
     ORDER_TIME_ERROR = ['order time is not invalid']
+    ERROR_TIME_FORMAT = ['time format invalid']
+    ORDER_FULL = ['order is full']
     def __init__(self, message, status_code = 400):
         super().__init__(message)
         self.status_code = status_code

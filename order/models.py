@@ -19,7 +19,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     PENDING = "Pending"
-    IN_PROGRESS = "In progress"
+    IN_PROGRESS = "Progressing"
     COMPLETED = "Complete"
     CANCELLED = "Cancelled"
     STATUS_CHOICE = {
@@ -38,6 +38,6 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     take_away = models.BooleanField(default=False)
     menu_item = models.ManyToManyField(to='menu.MenuItem', related_name='orders', through=OrderItem)
-
+    number_of_guests = models.IntegerField(default=1)
     class Meta:
         ordering = ['-order_date', '-id']

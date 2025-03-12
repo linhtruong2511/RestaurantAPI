@@ -1,5 +1,8 @@
-from django.db import models
+from datetime import datetime, timezone
 
+from django.db import models
+from django.template.defaultfilters import default
+from django.utils import timezone
 from menu.models import MenuItem
 from users.models import Customer
 
@@ -26,7 +29,8 @@ class Order(models.Model):
         CANCELLED: "cancelled"
     }
 
-    order_date = models.DateField(auto_now_add=True)
+    order_date = models.DateTimeField(default= timezone.now)
+    create_date = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(
         choices=STATUS_CHOICE,
         default=PENDING

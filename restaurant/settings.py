@@ -89,7 +89,7 @@ os.environ.setdefault("PGHOST", "localhost")
 os.environ.setdefault("PGPORT", "5432")
 DATABASE_URL = 'postgresql://postgres:CoQYRcFdOQCHnAXrMvqutQvFgeoDXUAY@postgres-m9p9.railway.internal:5432/railway'
 DATABASES = {
-    'default' : dj_database_url.parse(DATABASE_URL),
+    'default' : dj_database_url.config(default=DATABASE_URL),
 
 }
 

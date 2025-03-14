@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -87,15 +87,10 @@ os.environ.setdefault("PGUSER", "postgres")
 os.environ.setdefault("PGPASSWORD", "linh251104")
 os.environ.setdefault("PGHOST", "localhost")
 os.environ.setdefault("PGPORT", "5432")
+DATABASE_URL = 'postgresql://postgres:CoQYRcFdOQCHnAXrMvqutQvFgeoDXUAY@postgres-m9p9.railway.internal:5432/railway'
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "railway",
-        'USER': "postgres",
-        'PASSWORD': "oQRnPJxodLNfveoPSoGRjajxxxXRMgiZ",
-        'HOST': "postgres.railway.internal",
-        'PORT': "5432"
-    }
+    'default' : dj_database_url.parse(DATABASE_URL),
+
 }
 
 # Password validation
@@ -134,6 +129,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -203,8 +199,8 @@ LOGGING = {
             "style": "{",
         },
         'simple': {
-            'format': '{levelname} {asctime} {message}',
-            'style': '{'
+            'format' : '{levelname} {asctime} {message}',
+            'style' : '{'
         }
     },
     'handlers': {
@@ -212,7 +208,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'general.log',
             'formatter': 'file',
-            'level': 'INFO'
+            'level' : 'INFO'
         },
         'console': {
             'class': 'logging.StreamHandler',
@@ -223,22 +219,22 @@ LOGGING = {
         '': {
             'level': 'debug'.upper(),
             'handlers': ['console', 'file'],
-            'propagate': True
+            'propagate' : True
         },
         'django': {
             'level': 'info'.upper(),
             'handlers': ['file'],
-            'propagate': False
+            'propagate' : False
         },
         'django.request': {
             'level': 'info'.upper(),
             'handlers': ['console'],
-            'propagate': True
+            'propagate' : True
         },
-        'django.utils.autoreload': {
-            'level': 'warning'.upper(),
-            'handlers': ['file', 'console'],
-            'propagate': False
+        'django.utils.autoreload' : {
+            'level' : 'warning'.upper(),
+            'handlers' : ['file', 'console'],
+            'propagate' : False
         }
     }
 }

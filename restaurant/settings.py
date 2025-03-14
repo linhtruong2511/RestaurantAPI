@@ -90,11 +90,11 @@ os.environ.setdefault("PGPORT", "5432")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE', 'restaurant'),  # Đọc từ biến môi trường hoặc dùng mặc định
-        'USER': os.environ.get('PGUSER', 'postgres'),
-        'PASSWORD': os.environ.get('PGPASSWORD', 'linh251104'),
-        'HOST': os.environ.get('PGHOST', 'localhost'),  # Railway sẽ cung cấp PGHOST chính xác
-        'PORT': os.environ.get('PGPORT', '5432'),  # Railway sẽ cung cấp PGPORT chính xác
+        'NAME': "railway",
+        'USER': "postgres",
+        'PASSWORD': "oQRnPJxodLNfveoPSoGRjajxxxXRMgiZ",
+        'HOST': "postgres.railway.internal",
+        'PORT': "5432"
     }
 }
 

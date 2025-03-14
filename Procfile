@@ -1,1 +1,2 @@
-web: gunicorn restaurant.wsgi --bind 0.0.0.0:$PORT
+web: gunicorn restaurant.wsgi --log-file -
+web: python manage.py migrate && gunicorn restaurant.wsgi

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=+an(b6dm1069%e#1klb^4+7iu^2=wse=m%th045qz4bme&#cp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -90,11 +90,11 @@ os.environ.setdefault("PGPORT", "5432")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
+        'NAME': os.environ.get('PGDATABASE', 'restaurant'),  # Đọc từ biến môi trường hoặc dùng mặc định
+        'USER': os.environ.get('PGUSER', 'postgres'),
+        'PASSWORD': os.environ.get('PGPASSWORD', 'linh251104'),
+        'HOST': os.environ.get('PGHOST', 'localhost'),  # Railway sẽ cung cấp PGHOST chính xác
+        'PORT': os.environ.get('PGPORT', '5432'),  # Railway sẽ cung cấp PGPORT chính xác
     }
 }
 
@@ -134,7 +134,6 @@ STATIC_URL = 'static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -204,8 +203,8 @@ LOGGING = {
             "style": "{",
         },
         'simple': {
-            'format' : '{levelname} {asctime} {message}',
-            'style' : '{'
+            'format': '{levelname} {asctime} {message}',
+            'style': '{'
         }
     },
     'handlers': {
@@ -213,7 +212,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'general.log',
             'formatter': 'file',
-            'level' : 'INFO'
+            'level': 'INFO'
         },
         'console': {
             'class': 'logging.StreamHandler',
@@ -224,22 +223,22 @@ LOGGING = {
         '': {
             'level': 'debug'.upper(),
             'handlers': ['console', 'file'],
-            'propagate' : True
+            'propagate': True
         },
         'django': {
             'level': 'info'.upper(),
             'handlers': ['file'],
-            'propagate' : False
+            'propagate': False
         },
         'django.request': {
             'level': 'info'.upper(),
             'handlers': ['console'],
-            'propagate' : True
+            'propagate': True
         },
-        'django.utils.autoreload' : {
-            'level' : 'warning'.upper(),
-            'handlers' : ['file', 'console'],
-            'propagate' : False
+        'django.utils.autoreload': {
+            'level': 'warning'.upper(),
+            'handlers': ['file', 'console'],
+            'propagate': False
         }
     }
 }

@@ -194,6 +194,11 @@ SIMPLE_JWT = {
 ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS=True
 CORS_ALLOW_CREDENTIALS=True
+CSRF_TRUSTED_ORIGINS = [
+    'https://restaurantapi.up.railway.app',
+    'http://restaurantapi.up.railway.app',
+]
+
 
 LOGGING = {
     'version': 1,

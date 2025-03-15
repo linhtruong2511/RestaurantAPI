@@ -34,7 +34,12 @@ class SubmitOrder(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        customer = Customer.objects.get(pk=request.user.id)
+        try:
+            logger.info(f'customer id {request.user.id}')
+            customer = Customer.objects.get(pk=request.user.id)
+        except Customer.DoesNotExist:
+            raise AppException("Customer does not exist")
+
         take_away = request.data.get('take_away', False)
         items = request.data.get('items')
         tables = request.data.get('table')  # table: là một mảng danh sách các id của bàn
@@ -47,6 +52,9 @@ class SubmitOrder(views.APIView):
             create_date=timezone.now(),
             number_of_guests=number_of_guests or 1,
         )
+
+
+
 
         if order_date_str:
             order_date = parse_datetime(order_date_str)

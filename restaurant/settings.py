@@ -198,7 +198,14 @@ CSRF_TRUSTED_ORIGINS = [
     'https://restaurantapi.up.railway.app',
     'http://restaurantapi.up.railway.app',
 ]
-
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
 
 LOGGING = {
     'version': 1,

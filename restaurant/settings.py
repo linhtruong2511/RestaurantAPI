@@ -190,8 +190,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
-CORS_ALLOW_ALL_ORIGINS: True
-CORS_ALLOW_CREDENTIALS: True
+
+ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_CREDENTIALS=True
 
 LOGGING = {
     'version': 1,

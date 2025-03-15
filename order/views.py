@@ -36,7 +36,7 @@ class SubmitOrder(views.APIView):
     def post(self, request):
         try:
             logger.info(f'customer id {request.user.id}')
-            customer = Customer.objects.get(pk=request.user.id)
+            customer = Customer.objects.get(user_id=request.user.id)
         except Customer.DoesNotExist:
             raise AppException("Customer does not exist")
 

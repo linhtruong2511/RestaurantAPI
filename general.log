@@ -1,0 +1,27 @@
+WARNING 2025-06-05 07:12:03,631 in [django.request]: Not Found: /
+WARNING 2025-06-05 07:12:03,632 in [django.server]: "GET / HTTP/1.1" 404 3596
+WARNING 2025-06-05 07:12:03,993 in [django.request]: Not Found: /favicon.ico
+WARNING 2025-06-05 07:12:03,994 in [django.server]: "GET /favicon.ico HTTP/1.1" 404 3654
+WARNING 2025-06-05 07:12:25,736 in [django.request]: Not Found: /admin
+WARNING 2025-06-05 07:12:25,738 in [django.server]: "GET /admin HTTP/1.1" 404 3630
+WARNING 2025-06-05 07:12:33,256 in [django.request]: Not Found: /admin
+WARNING 2025-06-05 07:12:33,257 in [django.server]: "GET /admin HTTP/1.1" 404 3630
+INFO 2025-06-05 07:12:51,751 in [django.server]: "GET /admin/menu HTTP/1.1" 302 0
+INFO 2025-06-05 07:12:51,806 in [django.server]: "GET /admin/login/?next=/admin/menu HTTP/1.1" 200 4172
+INFO 2025-06-05 07:12:52,231 in [django.server]: "GET /static/admin/css/base.css HTTP/1.1" 200 22092
+INFO 2025-06-05 07:12:52,279 in [django.server]: "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2804
+INFO 2025-06-05 07:12:52,286 in [django.server]: "GET /static/admin/css/responsive.css HTTP/1.1" 200 17972
+INFO 2025-06-05 07:12:52,288 in [django.server]: "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2025-06-05 07:12:52,289 in [django.server]: "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-06-05 07:12:52,291 in [django.server]: "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-06-05 07:12:52,295 in [django.server]: "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-06-05 07:12:57,582 in [django.server]: "POST /admin/login/?next=/admin/menu HTTP/1.1" 200 4333
+INFO 2025-06-05 07:13:04,104 in [django.server]: "POST /admin/login/?next=/admin/menu HTTP/1.1" 200 4333
+WARNING 2025-06-05 07:14:21,944 in [django.request]: Not Found: /
+WARNING 2025-06-05 07:14:21,945 in [django.server]: "GET / HTTP/1.1" 404 3596
+WARNING 2025-06-05 07:14:26,566 in [django.request]: Not Found: /admin
+WARNING 2025-06-05 07:14:26,574 in [django.server]: "GET /admin HTTP/1.1" 404 3630
+WARNING 2025-06-05 07:14:31,612 in [django.request]: Not Found: /user
+WARNING 2025-06-05 07:14:31,612 in [django.server]: "GET /user HTTP/1.1" 404 3626
+WARNING 2025-06-05 07:14:42,956 in [django.request]: Not Found: /order
+WARNING 2025-06-05 07:14:42,956 in [django.server]: "GET /order HTTP/1.1" 404 3629

@@ -85,7 +85,7 @@ os.environ.setdefault("PGUSER", "postgres")
 os.environ.setdefault("PGPASSWORD", "postgres")
 os.environ.setdefault("PGHOST", "localhost")
 os.environ.setdefault("PGPORT", "5432")
-DATABASE_URL = 'postgresql://postgres:CoQYRcFdOQCHnAXrMvqutQvFgeoDXUAY@postgres-m9p9.railway.internal:5432/railway'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -130,8 +130,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 # Default primary key field type
@@ -149,6 +147,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
@@ -196,6 +195,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://restaurantapi.up.railway.app',
     'http://restaurantapi.up.railway.app',
 ]
+
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
@@ -204,6 +204,7 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+
 CORS_ALLOW_HEADERS = (
     "accept",
     "authorization",
@@ -212,6 +213,7 @@ CORS_ALLOW_HEADERS = (
     "x-csrftoken",
     "x-requested-with",
 )
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
